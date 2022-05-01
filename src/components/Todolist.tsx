@@ -6,7 +6,7 @@ type PropsType = {
   tasks: Array<TasksPropsType>
   removeTask: (id: string) => void
   changeFilter: (value: FilterValuesType) => void
-  addTask: (title:string) => void
+  addTask: (title: string) => void
 }
 
 export type TasksPropsType = {
@@ -21,13 +21,23 @@ export function Todolist(props: PropsType) {
     <div>
       <h3>{props.title}</h3>
       <div>
-        <input value={newTaskTitle} onChange={(e) => {
-          setNewTaskTitle(e.currentTarget.value)
-        }}/>
-        <button onClick={()=>{
+        <input
+          value={newTaskTitle}
+          onChange={(e) => {
+            setNewTaskTitle(e.currentTarget.value)
+          }}
+          onKeyPress={(e) => {
+            if (e.ctrlKey && e.code === 'Enter') {
+              props.addTask(newTaskTitle);
+              setNewTaskTitle('');
+            }
+          }}
+        />
+        <button onClick={() => {
           props.addTask(newTaskTitle)
           setNewTaskTitle(' ')
-        }}>+</button>
+        }}>+
+        </button>
       </div>
       <div>
         <button onClick={() => props.changeFilter('all')}>All</button>
